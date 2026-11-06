@@ -1,0 +1,4 @@
+// Shareable defaults. Copy Signing.local.xcconfig.example for device signing.
+DEVELOPMENT_TEAM =
+PRODUCT_BUNDLE_IDENTIFIER = com.example.ParallaxKitDemo
+#include? "Signing.local.xcconfig"
