@@ -137,11 +137,12 @@ final class ParallaxMotionTests: XCTestCase {
         let pose = try XCTUnwrap(response.submit(sample(simd_quatf(angle: 0.2, axis: [0, 1, 0]), 0.1)))
         let screen = try ParallaxScreen(width: 0.07, height: 0.15)
         let camera = try ParallaxProjection.camera(viewer: pose.position, screen: screen)
+        let viewProjection = camera.projectionMatrix * camera.viewMatrix
         for (point, expected): (SIMD3<Float>, SIMD2<Float>) in [
             ([screen.left, screen.bottom, 0], [-1, -1]),
             ([screen.right, screen.top, 0], [1, 1]), ([0, 0, 0], [0, 0]),
         ] {
-            let clip = camera.projectionMatrix * camera.viewMatrix * SIMD4(point, 1)
+            let clip = viewProjection * SIMD4(point, 1)
             XCTAssertEqual(clip.x / clip.w, expected.x, accuracy: 0.00001)
             XCTAssertEqual(clip.y / clip.w, expected.y, accuracy: 0.00001)
         }

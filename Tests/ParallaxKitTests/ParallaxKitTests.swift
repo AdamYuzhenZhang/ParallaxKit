@@ -7,12 +7,13 @@ final class ParallaxKitTests: XCTestCase {
         let screen = try ParallaxScreen(width: 0.07, height: 0.15)
         for viewer: SIMD3<Float> in [[0, 0, 0.5], [0.12, -0.08, 0.3], [-0.1, 0.07, 0.8]] {
             let camera = try ParallaxProjection.camera(viewer: viewer, screen: screen)
+            let viewProjection = camera.projectionMatrix * camera.viewMatrix
             for (point, expected): (SIMD3<Float>, SIMD2<Float>) in [
                 ([screen.left, screen.bottom, 0], [-1, -1]),
                 ([screen.right, screen.top, 0], [1, 1]),
                 ([0, 0, 0], [0, 0]),
             ] {
-                let p = camera.projectionMatrix * camera.viewMatrix * SIMD4(point, 1)
+                let p = viewProjection * SIMD4(point, 1)
                 XCTAssertEqual(p.x / p.w, expected.x, accuracy: 0.00001)
                 XCTAssertEqual(p.y / p.w, expected.y, accuracy: 0.00001)
             }
@@ -26,8 +27,9 @@ final class ParallaxKitTests: XCTestCase {
             let p = camera.projectionMatrix * SIMD4<Float>(0, 0, z, 1)
             XCTAssertEqual(p.z / p.w, expected, accuracy: 0.00001)
         }
-        let behind = camera.projectionMatrix * camera.viewMatrix * SIMD4<Float>(0, 0, -0.1, 1)
-        let inFront = camera.projectionMatrix * camera.viewMatrix * SIMD4<Float>(0, 0, 0.1, 1)
+        let viewProjection = camera.projectionMatrix * camera.viewMatrix
+        let behind = viewProjection * SIMD4<Float>(0, 0, -0.1, 1)
+        let inFront = viewProjection * SIMD4<Float>(0, 0, 0.1, 1)
         XCTAssertGreaterThan(behind.x / behind.w, 0)
         XCTAssertLessThan(inFront.x / inFront.w, 0)
     }

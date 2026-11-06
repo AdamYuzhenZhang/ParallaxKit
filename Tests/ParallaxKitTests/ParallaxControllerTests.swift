@@ -96,7 +96,8 @@ final class ParallaxControllerTests: XCTestCase {
             let state = controller.sample(at: 1)
             XCTAssertEqual(state.mode, mode)
             let camera = try ParallaxProjection.camera(viewer: state.position, screen: screen)
-            let corner = camera.projectionMatrix * camera.viewMatrix * SIMD4<Float>(screen.right, screen.top, 0, 1)
+            let viewProjection = camera.projectionMatrix * camera.viewMatrix
+            let corner = viewProjection * SIMD4<Float>(screen.right, screen.top, 0, 1)
             XCTAssertEqual(corner.x / corner.w, 1, accuracy: 0.00001)
             XCTAssertEqual(corner.y / corner.w, 1, accuracy: 0.00001)
         }
