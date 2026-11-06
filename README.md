@@ -100,13 +100,16 @@ swift test -Xswiftc -warnings-as-errors
 xcodebuild -project Examples/ParallaxKitDemo/ParallaxKitDemo.xcodeproj \
   -scheme ParallaxKitDemo -destination 'generic/platform=iOS' \
   CODE_SIGNING_ALLOWED=NO build
+xcodebuild -project Examples/ParallaxKitDemo/ParallaxKitDemo.xcodeproj \
+  -scheme ParallaxKitDemo -destination 'generic/platform=iOS Simulator' \
+  CODE_SIGNING_ALLOWED=NO build
 ```
 
 Tests cover projection registration and depth, input validation, mode changes,
 interruption recovery, timeout behavior, motion axes, recentering, and cadence.
-[CI](.github/workflows/ci.yml) runs the core tests and builds the iOS demo for
-device and Simulator. See [publishing notes](Documentation/Publishing.md) for the
-standalone repository layout and release checks.
+Run these checks locally before sharing updates. No automatic GitHub Actions
+workflow is configured. See [publishing notes](Documentation/Publishing.md) for
+the standalone repository layout and release checks.
 
 This is a developing package. The effect is monoscopic, and IMU mode models a
 virtual eye rather than measuring head position. Physical calibration and sensor

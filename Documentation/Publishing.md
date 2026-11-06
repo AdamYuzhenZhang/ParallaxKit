@@ -15,7 +15,6 @@ using the package's actual camera output.
 - `Examples/ParallaxKitDemo/`: independent iOS consumer with a shared Xcode scheme.
 - `README.md` and `Documentation/`: onboarding and integration.
 - `LICENSE` and `THIRD_PARTY_NOTICES.md`: MIT license and original Unity attribution.
-- `.github/workflows/ci.yml`: tests and unsigned device/Simulator builds.
 
 Build products, test results, Xcode user settings, and local signing configuration
 are ignored. Keep the shared Xcode scheme and the signing example file.
@@ -24,7 +23,8 @@ their own ignored `Signing.local.xcconfig` for hardware installation.
 
 ## Before a release
 
-1. Run `swift test -Xswiftc -warnings-as-errors` and both demo builds from CI.
+1. Run the local tests and unsigned device/Simulator builds listed in the
+   [README](../README.md). This repository does not run automatic GitHub Actions.
 2. Complete the [physical validation checklist](../Examples/ParallaxKitDemo/README.md)
    for the device/OS combinations you intend to support.
 3. Keep the [TheParallaxView reference](https://github.com/algomystic/TheParallaxView)
